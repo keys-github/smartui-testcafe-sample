@@ -1,318 +1,115 @@
-# SmartUI SDK Sample for TestCafe — TestMu AI (Formerly LambdaTest)
+# Run SmartUI Visual Tests with TestCafe on TestMu AI (Formerly LambdaTest)
 
-Welcome to the SmartUI SDK sample for TestCafe. This repository demonstrates how to integrate SmartUI visual regression testing with TestCafe.
+<p align="center">
+  <a href="https://www.testmuai.com/"><img src="https://img.shields.io/badge/MADE%20BY%20TestMu%20AI-000000.svg?style=for-the-badge&labelColor=000" alt="Made by TestMu AI"></a>
+  <a href="https://www.npmjs.com/package/testcafe"><img src="https://img.shields.io/npm/v/testcafe.svg?style=for-the-badge&labelColor=000000" alt="TestCafe version"></a>
+  <a href="https://community.testmuai.com/"><img src="https://img.shields.io/badge/Join%20the%20community-blueviolet.svg?style=for-the-badge&labelColor=000000" alt="Community"></a>
+</p>
 
-## Repository Structure
+## Getting Started
 
-```
-smartui-testcafe-sample/
-├── testcafeSDKLocal.js    # Test file (works for both Local and Cloud)
-├── package.json            # Dependencies
-└── smartui-web.json        # SmartUI config (create with npx smartui config:create)
-```
+[TestMu AI](https://www.testmuai.com/) (Formerly LambdaTest) is the world's first full-stack AI Agentic Quality Engineering platform that empowers teams to test intelligently, smarter, and ship faster. Built for scale, it offers a full-stack testing cloud with 10K+ real devices and 3,000+ browsers. With AI-native test management, MCP servers, and agent-based automation, TestMu AI supports Selenium, Appium, Playwright, and all major frameworks. 
 
-## 1. Prerequisites and Environment Setup
+With TestMu AI (Formerly LambdaTest), you can run SmartUI visual regression tests with TestCafe on real browsers. This sample shows how to configure TestCafe + SmartUI to run on the TestMu AI cloud.
+
+- [Sign up on TestMu AI](https://www.testmuai.com/register/) (Formerly LambdaTest).
+- Follow the [TestMu AI Documentation](https://www.testmuai.com/support/docs/) for the full setup walkthrough.
 
 ### Prerequisites
 
-- Node.js installed
-- TestMu AI account credentials (for Cloud tests)
-- Chrome browser (for Local tests)
+- Node.js and npm (latest stable)
+- A TestMu AI (Formerly LambdaTest) account with your username and access key
 
-### Environment Setup
+### Setup
 
-**For Cloud:**
-```bash
-export LT_USERNAME='your_username'
-export LT_ACCESS_KEY='your_access_key'
-export PROJECT_TOKEN='your_project_token'
-```
-
-**For Local:**
-```bash
-export PROJECT_TOKEN='your_project_token'
-```
-
-## 2. Initial Setup and Dependencies
-
-### Clone the Repository
+Clone and install dependencies:
 
 ```bash
-git clone https://github.com/LambdaTest/smartui-testcafe-sample
-cd smartui-testcafe-sample
-```
-
-### Install Dependencies
-
-The repository already includes the required dependencies in `package.json`. Install them:
-
-```bash
+git clone https://github.com/LambdaTest/smartui-testcafe-sample && cd smartui-testcafe-sample
 npm install
 ```
 
-**Dependencies included:**
-- `@lambdatest/smartui-cli` - SmartUI CLI
-- `@lambdatest/testcafe-driver` - SmartUI TestCafe driver
-- `testcafe` - TestCafe framework
+Set your credentials as environment variables.
 
-**For Cloud execution, also install:**
-```bash
-npm install testcafe-browser-provider-lambdatest
-```
-
-### Create SmartUI Configuration
+**macOS / Linux:**
 
 ```bash
-npx smartui config:create smartui-web.json
+export LT_USERNAME="YOUR_USERNAME"
+export LT_ACCESS_KEY="YOUR_ACCESS_KEY"
+export LT_TUNNEL="YOUR_TUNNEL_NAME"
+export PROJECT_TOKEN="YOUR_PROJECT_TOKEN"
 ```
 
-## 3. Steps to Integrate Screenshot Commands into Codebase
-
-The SmartUI screenshot function is already implemented in the repository.
-
-**Test File** (`testcafeSDKLocal.js`):
-```javascript
-import { smartuiSnapshot } from '@lambdatest/testcafe-driver';
-
-fixture('LambdaTest Test')
-  .page('https://www.lambdatest.com');
-
-test('Take Homepage Screenshot', async (t) => {
-  await smartuiSnapshot(t, 'screenshot');
-});
-```
-
-**Note**: The code is already configured and ready to use. You can modify the URL and screenshot name if needed. The `smartuiSnapshot` function takes the test controller `t` as the first parameter and the screenshot name as the second parameter.
-
-## 4. Execution and Commands
-
-### Local Execution
+**Windows:**
 
 ```bash
-npx smartui exec -- npx testcafe chrome testcafeSDKLocal.js
+set LT_USERNAME="YOUR_USERNAME"
+set LT_ACCESS_KEY="YOUR_ACCESS_KEY"
+set LT_TUNNEL="YOUR_TUNNEL_NAME"
+set PROJECT_TOKEN="YOUR_PROJECT_TOKEN"
 ```
 
-### Cloud Execution
+### Run tests
 
 ```bash
-npx smartui exec -- npx testcafe "lambdatest:Chrome@latest:Windows 10" testcafeSDKLocal.js
+npm test
 ```
 
-**Note**: Replace `"lambdatest:Chrome@latest:Windows 10"` with your desired browser and platform.
+View results on your TestMu AI dashboard.
 
-## Test File
+### Local testing with TestMu AI Tunnel
 
-The test file (`testcafeSDKLocal.js`) works for both local and cloud execution.
+To test locally hosted apps, set up the TestMu AI tunnel. OS-specific guides:
 
-## Configuration
+- [Local Testing on Windows](https://www.testmuai.com/support/docs/local-testing-for-windows/)
+- [Local Testing on macOS](https://www.testmuai.com/support/docs/local-testing-for-macos/)
+- [Local Testing on Linux](https://www.testmuai.com/support/docs/local-testing-for-linux/)
 
-### SmartUI Config (`smartui-web.json`)
+Add the following to your capabilities:
 
-Create the SmartUI configuration file using:
-```bash
-npx smartui config:create smartui-web.json
+```js
+tunnel: true,
 ```
 
-## Best Practices
+## Contributions
 
-### Screenshot Naming
+Contributions are welcome. Open an issue to discuss your idea before submitting a pull request. When reporting bugs, include your Node.js version, OS, and TestCafe version.
 
-- Use descriptive, unique names for each screenshot
-- Include test context and state
-- Avoid special characters
-- Use consistent naming conventions
+## TestMu AI (Formerly LambdaTest) Community
 
-### When to Take Screenshots
-
-- After critical user interactions
-- Before and after form submissions
-- At different viewport sizes
-- After page state changes
-
-### TestCafe-Specific Tips
-
-- Use `await t.wait()` before screenshots for dynamic content
-- Take screenshots after page loads completely
-- Use `t.resizeWindow()` for responsive testing
-- Combine with TestCafe assertions for better test flow
-
-### Example: Screenshot After Interaction
-
-```javascript
-import { smartuiSnapshot } from '@lambdatest/testcafe-driver';
-
-fixture('LambdaTest Test')
-  .page('https://www.lambdatest.com');
-
-test('Take Screenshot After Search', async (t) => {
-  await t.typeText('#search', 'TestCafe');
-  await t.wait(1000);
-  await smartuiSnapshot(t, 'search-results');
-});
-```
-
-## Common Use Cases
-
-### Responsive Testing
-
-```javascript
-fixture('Responsive Tests')
-  .page('https://www.lambdatest.com');
-
-test('Desktop View', async (t) => {
-  await t.resizeWindow(1920, 1080);
-  await smartuiSnapshot(t, 'homepage-desktop');
-});
-
-test('Tablet View', async (t) => {
-  await t.resizeWindow(768, 1024);
-  await smartuiSnapshot(t, 'homepage-tablet');
-});
-
-test('Mobile View', async (t) => {
-  await t.resizeWindow(375, 667);
-  await smartuiSnapshot(t, 'homepage-mobile');
-});
-```
-
-### Multi-Step Flow Testing
-
-```javascript
-test('Checkout Flow', async (t) => {
-  await t.navigateTo('https://example.com/checkout');
-  await smartuiSnapshot(t, 'checkout-step-1');
+Connect with testers and developers in the [TestMu AI Community](https://community.testmuai.com/). Ask questions, share what you are building, and discuss best practices in test automation and DevOps.
   
-  await t.click('#next-step');
-  await t.wait(500);
-  await smartuiSnapshot(t, 'checkout-step-2');
-});
-```
+## TestMu AI (Formerly LambdaTest) Certifications
 
-## CI/CD Integration
+Earn free [TestMu AI Certifications](https://www.testmuai.com/certifications/) for testers, developers, and QA engineers. Validate your skills in Selenium, Cypress, Playwright, Appium, Espresso and more. Industry-recognized, shareable on LinkedIn, and built by practitioners, not marketers.
 
-### GitHub Actions Example
+## Learning Resources by TestMu AI (Formerly LambdaTest)
 
-```yaml
-name: TestCafe SmartUI Tests
+Learn modern testing through tutorials, guides, videos, and weekly updates:
 
-on: [push, pull_request]
+* [TestMu AI Blog](https://www.testmuai.com/blog/)
+* [TestMu AI Learning Hub](https://www.testmuai.com/learning-hub/)
+* [TestMu AI on YouTube](https://www.youtube.com/@TestMuAI)
+* [TestMu AI Newsletter](https://www.testmuai.com/newsletter/)
+  
+## LambdaTest is Now TestMu AI
 
-jobs:
-  visual-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Run TestCafe with SmartUI (Local)
-        env:
-          PROJECT_TOKEN: ${{ secrets.SMARTUI_PROJECT_TOKEN }}
-        run: |
-          npx smartui exec -- npx testcafe chrome testcafeSDKLocal.js
-      
-      - name: Run TestCafe with SmartUI (Cloud)
-        env:
-          PROJECT_TOKEN: ${{ secrets.SMARTUI_PROJECT_TOKEN }}
-          LT_USERNAME: ${{ secrets.LT_USERNAME }}
-          LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
-        run: |
-          npx smartui exec -- npx testcafe "lambdatest:Chrome@latest:Windows 10" testcafeSDKLocal.js
-```
+On **January 12, 2026**, [LambdaTest evolved to TestMu AI](https://www.testmuai.com/lambdatest-is-now-testmuai/), the world's first fully autonomous **Agentic AI Quality Engineering Platform**.
 
-## Troubleshooting
+Same team. Same infrastructure. Same customer accounts. All existing LambdaTest logins, scripts, capabilities, and integrations continue to work without change.
 
-### Issue: `smartuiSnapshot is not a function`
+ð Find the new home for [LambdaTest](https://www.testmuai.com).
 
-**Solution**: Ensure the driver is imported:
-```javascript
-import { smartuiSnapshot } from '@lambdatest/testcafe-driver';
-```
+### How LambdaTest Evolved into TestMu AI
 
-### Issue: Screenshots not captured
+In 2017, we launched LambdaTest with a simple mission: make testing fast, reliable, and accessible. As LambdaTest grew, we expanded into Test Intelligence, Visual Regression Testing, Accessibility Testing, API Testing, and Performance Testing, covering the full depth of the testing lifecycle.
 
-**Solution**:
-1. Verify `PROJECT_TOKEN` is set
-2. Add waits before screenshots
-3. Ensure test completes successfully
-4. Check TestCafe version compatibility
+As software development entered the AI era, testing had to evolve, too. We rebuilt the architecture to be AI-native from the ground up, with autonomous agents that **plan, author, execute, analyze, and optimize tests** while keeping humans in the loop. The platform integrates with your repos, CI, IDEs, and terminals, continuously learning from every code change and development signal.
 
-### Issue: `PROJECT_TOKEN is required`
+That evolution earned a new name: **TestMu AI**, built for an AI-first future of quality engineering. TestMu is not a new name for us. It is the name of our annual community conference, which has brought together 100,000+ quality engineers to discuss how AI would reshape testing, long before that became an industry norm. 
 
-**Solution**: Set the environment variable:
-```bash
-export PROJECT_TOKEN='your_project_token'
-```
+What started as a high-performance cloud testing platform has transformed into an AI-native, multi-agent system powering a connected, end-to-end quality layer. That evolution defined a new identity: LambdaTest evolved into TestMu AI, built for an AI-first future of quality engineering.
 
-### Issue: Cloud execution fails
+## Support
 
-**Solution**:
-1. Install browser provider: `npm install testcafe-browser-provider-lambdatest`
-2. Verify `LT_USERNAME` and `LT_ACCESS_KEY` are set
-3. Check browser/platform format: `"lambdatest:Chrome@latest:Windows 10"`
-
-## Configuration Tips
-
-### Optimizing `smartui-web.json`
-
-```json
-{
-  "web": {
-    "browsers": ["chrome", "firefox", "edge"],
-    "viewports": [
-      [1920, 1080],
-      [1366, 768],
-      [375, 667]
-    ],
-    "waitForPageRender": 30000,
-    "waitForTimeout": 2000
-  }
-}
-```
-
-## View Results
-
-After running the tests, visit your SmartUI project dashboard to view the captured screenshots and compare them with baseline builds.
-
-## Additional Resources
-
-- [SmartUI TestCafe Onboarding Guide](https://www.testmuai.com/support/docs/smartui-onboarding-testcafe/)
-- [TestCafe Documentation](https://testcafe.io/documentation/)
-- [TestMu AI TestCafe Documentation](https://www.testmuai.com/support/docs/testcafe-testing/)
-- [SmartUI Dashboard](https://smartui.lambdatest.com/)
-- [TestMu AI Community](https://community.testmuai.com/)
-
-## 🚀 LambdaTest is Now TestMu AI
-
-👋 Welcome to TestMu AI, the next evolution of LambdaTest. As of January 2026, [LambdaTest is Now TestMu AI](https://www.testmuai.com/lambdatest-is-now-testmuai/) - we have evolved from a cross-browser testing cloud into a unified, AI-native quality engineering platform designed for the modern DevOps era.
-
-Whether you have been part of the LambdaTest community for years or are just discovering TestMu AI, our mission remains the same: to help you ship faster with high-scale test execution, autonomous testing, and deep quality analytics.
-
-### 🔄 Our Rebrand Journey
-
-In 2017, we introduced LambdaTest with a clear mission: to become the world's most trusted cloud testing platform. We built a scalable, high-performance test cloud that eliminated flakiness, improved developer feedback cycles, and accelerated release velocity for teams worldwide.
-
-As LambdaTest grew, we expanded the platform into Test Intelligence, Visual Regression Testing, Accessibility Testing, API Testing, and Performance Testing, covering the entire testing lifecycle. These capabilities enabled teams to test any stack, on any technology, at enterprise scale.
-
-Over time, we rebuilt the architecture to be AI-native from the ground up. What began as LambdaTest's high-performance testing cloud has now evolved into TestMu AI, an AI-native, multi-agent platform redefining modern quality engineering.
-
-We chose the name TestMu AI to reflect our shift towards intelligent, autonomous testing. While our identity has changed, our core technology and commitment to the testing community stay the same.
-
-👉 Find [LambdaTest's New Home](https://www.testmuai.com/).
-
-### 🔭 Explore TestMu AI
-
-The same infrastructure LambdaTest customers relied on, now delivered through autonomous AI agents.
-
-- [KaneAI](https://www.testmuai.com/kane-ai/)
-- [Agent-to-Agent Testing](https://www.testmuai.com/agent-to-agent-testing/)
-- [HyperExecute](https://www.testmuai.com/hyperexecute/)
-- [Real Device Cloud](https://www.testmuai.com/real-device-cloud/)
-- [Pricing](https://www.testmuai.com/pricing/)
-- [Documentation](https://www.testmuai.com/support/docs/)
+Got a question? Email [support@testmuai.com](mailto:support@testmuai.com) or chat with us 24x7 from our chat portal.
